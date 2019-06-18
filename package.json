@@ -1,10 +1,19 @@
 {
   "name": "@robinl/energy_usage",
-  "version": "0.0.7",
+  "version": "0.0.12",
   "description": "",
-  "main": "index.js",
+
+
+  "unpkg": "dist/energy_usage.js",
+  "main": "dist/energy_usage.js",
+  "unpkg": "dist/energy_usage.js",
+  "jsdelivr": "dist/energy_usage.js",
+  "module": "src/index.js",
+
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "pretest": "rollup -c",
+    "test": "tape 'test/**/*-test.js' && eslint src",
+    "prepublishOnly": "rm -rf dist && yarn test"
   },
   "repository": {
     "type": "git",
@@ -16,7 +25,9 @@
     "url": "https://github.com/RobinL/energy_usage/issues"
   },
   "devDependencies": {
-    "eslint": "^3.19.0"
+    "eslint": "^3.19.0",
+    "rollup": "^1.15.6",
+    "tape": "^4.10.2"
   },
   "homepage": "https://github.com/RobinL/energy_usage#readme"
 }
