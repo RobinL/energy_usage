@@ -1,1 +1,2 @@
-export { get_daily_litres } from './shower.js';
+export { shower } from './shower.js';
+export { utils } from './utils.js';
