@@ -13,8 +13,16 @@ function convert_time_period(value, from="years", to="days") {
         "years": 365
     }
 
-    let numerator = multipliers[from]
-    let denominator = multipliers[to]
+    if (!(from in multipliers)) {
+        throw "from timeperiod must be in " + Object.keys(multipliers).toString() + ", you passed " + from
+    }
+
+    if (!(to in multipliers)) {
+        throw "to timeperiod must be in " + Object.keys(multipliers).toString() + ", you passed " + to
+    }
+
+    let numerator = multipliers[to]
+    let denominator = multipliers[from]
 
     return value * (numerator / denominator)
 
@@ -22,5 +30,7 @@ function convert_time_period(value, from="years", to="days") {
 
 export let utils = {
     'joules_to_kwh': joules_to_kwh,
-    'convert_time_period': convert_time_period
+    'convert_time_period': convert_time_period,
+    'KM_PER_MILE': 1.60934 //From Google
+
 };
