@@ -12,7 +12,7 @@ function miles_driven_to_gallons_of_fuel_per_day(miles_driven, time_period, mpg 
 
 function gallons_of_fuel_to_joules(imperial_gallons) {
 
-    let joules_per_litre = 32000000  // from https://energyeducation.ca/encyclopedia/Joule, https://hypertextbook.com/facts/2006/TatyanaNektalova.shtml
+    let joules_per_litre = 34.2e6  // from https://en.wikipedia.org/wiki/Energy_density
     let joules_per_gallon = joules_per_litre * 4.54609 //imperial gallon conversion from google
 
     return joules_per_gallon * imperial_gallons
