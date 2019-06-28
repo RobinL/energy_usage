@@ -3,7 +3,6 @@ var eu = require("../")
 
 tape("test driving", function (test) {
 
-
     test.equal(eu.driving._miles_driven_to_gallons_of_fuel_per_day(30, "days", 30), 1);
     test.equal(eu.driving._miles_driven_to_gallons_of_fuel_per_day(30, "weeks", 30), 1/7);
 
