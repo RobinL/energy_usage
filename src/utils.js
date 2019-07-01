@@ -31,6 +31,7 @@ function convert_time_period(value, from = "years", to = "days") {
 export let utils = {
     'joules_to_kwh': joules_to_kwh,
     'convert_time_period': convert_time_period,
-    'KM_PER_MILE': 1.60934 //From Google
+    'KM_PER_MILE': 1.60934 //From Google https://www.google.com/search?q=1+km+in+miles
+    'JOULES_PER_KCAL': 4184 //From Google https://www.google.com/search?q=1+kcal+in+joules&oq=1+kcal+in+joules
 };
 
