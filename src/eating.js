@@ -38,7 +38,32 @@ function calories_per_day(weight_kg, height_cm, age_years, gender, activity_leve
 
 }
 
-function kwh_per_day(weight_kg, height_cm, age_years, gender, activity_level) {
+function get_energy_intensity_of_production_multiplier(diet_type) {
+
+    // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5522483/
+    // Would like a much better source for this!!  I use the co2 intensity to proxy for energy intensity
+
+    // Will assume that our base food energy intensity multiplier of around 7 applies to an omnivore diet,
+    // this is probably not far from the truth for USA
+
+    let intensities = {
+        'omnivore': 3959.3,
+        'vegetarian': 2598.3,
+        'vegan': 2336.1}
+
+
+    let denom = intensities["omnivore"]
+    let relative_intensity = {}
+    Object.keys(intensities).forEach(function(k) {
+        relative_intensity[k] = intensities[k] / denom
+
+    })
+
+    return relative_intensity[diet_type]
+
+}
+
+function kwh_per_day(weight_kg, height_cm, age_years, gender, activity_level, diet_type="omnivore") {
     let calories = calories_per_day(weight_kg, height_cm, age_years, gender, activity_level)
 
     // How much energy is required to produce on cal of food?
@@ -46,6 +71,9 @@ function kwh_per_day(weight_kg, height_cm, age_years, gender, activity_level) {
     // See also https://blogs.scientificamerican.com/plugged-in/10-calories-in-1-calorie-out-the-energy-we-spend-on-food/ for a higher estimate
     let food_production_multiplier = 7  // Later we want to adjust for diet - e.g. veggie vs meat eating.
     let joules = calories * food_production_multiplier * utils.JOULES_PER_KCAL
+
+    let diet_type_multiplier = get_energy_intensity_of_production_multiplier(diet_type)
+    joules = joules * diet_type_multiplier
     return utils.joules_to_kwh(joules)
 }
 
