@@ -37,6 +37,8 @@ export let utils = {
     'convert_time_period': convert_time_period,
     'format_kwh' : format_kwh,
     'KM_PER_MILE': 1.60934, //From Google https://www.google.com/search?q=1+km+in+miles
-    'JOULES_PER_KCAL': 4184 //From Google https://www.google.com/search?q=1+kcal+in+joules&oq=1+kcal+in+joules
+    'JOULES_PER_KCAL': 4184, //From Google https://www.google.com/search?q=1+kcal+in+joules&oq=1+kcal+in+joules
+    'KWH_PER_IMPERIAL_GAS_UNIT': (39.5/3.6)*2.83,  // https://www.gov.uk/guidance/gas-meter-readings-and-bill-calculation
+    'KWH_PER_METRIC_GAS_UNIT': 39.5/3.6  // https://www.gov.uk/guidance/gas-meter-readings-and-bill-calculation
 };
 

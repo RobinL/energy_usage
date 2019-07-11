@@ -5,3 +5,4 @@ export { utils } from './utils.js';
 export { washing } from './washing_dishwasher.js'
 export { pets } from './pets.js'
 export { eating } from './eating.js'
+export { heating } from './heating.js'
