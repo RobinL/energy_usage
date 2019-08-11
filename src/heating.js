@@ -37,12 +37,13 @@ function get_thermostat_adjustment(thermostat_current, thermostat_future) {
     let current = relative_heat_requirements.filter(function (d) {
         return d["thermostat"] == thermostat_current
     })
+
     current = current[0]["heat_required"]
 
     let future = relative_heat_requirements.filter(function (d) {
         return d["thermostat"] == thermostat_future
     })
-    current = current[0]["heat_required"]
+    future = future[0]["heat_required"]
 
     return future/current
 
@@ -65,5 +66,5 @@ function heating_kwh_per_day(annual_usage_from_energy_bill, thermostat_current, 
 
 export let heating = {
     'heating_kwh_per_day': heating_kwh_per_day,
-
+    '_get_thermostat_adjustment': get_thermostat_adjustment
 };

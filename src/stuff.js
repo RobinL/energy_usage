@@ -6,7 +6,7 @@
 import { utils } from './utils.js'
 
 let estimates = [
-    {   "type_of_stuff": "Aluminium drink cans"
+    {   "type_of_stuff": "Aluminium drink cans",
         "kwh_per_£":  0.6/0.5, // 0.6kwh divided by 50p.  Note this is similar for plastic bottles
         "source": "https://www.withouthotair.com/c15/page_89.shtml",
         "weight": 0.5
@@ -56,16 +56,20 @@ let estimates = [
     }
 ]
 
-console.log(estimates)
-
 function get_average_kwh_per_pound_sterling() {
 
-    let total_weight = estimates.reduce((a,b) => a + b["weight"])
+    let total_weight = estimates.reduce((a,b) => a + b["weight"],0)
     let contributions = estimates.map(d => (d["weight"]/total_weight * d["kwh_per_£"]))
-    let average = contributions.reduce((a,b) => a+b)
+    let average = contributions.reduce((a,b) => a+b,0)
     return average
 }
 
 function pounds_sterling_to_kwh(pounds_sterling) {
     return pounds_sterling * get_average_kwh_per_pound_sterling()
 }
+
+export let stuff = {
+    '_estimates': estimates,
+    '_get_average_kwh_per_pound_sterling': get_average_kwh_per_pound_sterling,
+    'pounds_sterling_to_kwh': pounds_sterling_to_kwh
+};
