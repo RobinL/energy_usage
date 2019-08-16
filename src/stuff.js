@@ -27,7 +27,7 @@ let estimates = [
         "weight": 1
     },
     {   "type_of_stuff": "car",
-        "kwh_per_£": (33097 + 46431 + 76000) / 17500,  // Energy skeptic hsa 119,150 MJ = 33097kwh for an american car and 167,150 MJ = 46431kwh for chinese car.  Withouthotair has 76 000 kwh for car.  average car cost from nimblefins
+        "kwh_per_£": ((33097 + 46431 + 76000)/3) / 17500,  // Energy skeptic hsa 119,150 MJ = 33097kwh for an american car and 167,150 MJ = 46431kwh for chinese car.  Withouthotair has 76 000 kwh for car.  average car cost from nimblefins
         "source": "https://www.nimblefins.co.uk/average-cost-cars-uk and https://www.withouthotair.com/c15/page_90.shtml and http://energyskeptic.com/2015/how-much-energy-does-it-take-to-make-a-car-by-david-fridley-lbl/" ,
         "weight": 2
     },
