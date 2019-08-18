@@ -3,7 +3,7 @@
 
 //http://energyskeptic.com/2015/how-much-energy-does-it-take-to-make-a-car-by-david-fridley-lbl/
 
-import { utils } from './utils.js'
+import { convert } from './convert'
 
 let estimates = [
     {   "type_of_stuff": "Aluminium drink cans",
@@ -32,25 +32,25 @@ let estimates = [
         "weight": 2
     },
     {   "type_of_stuff": "smartphone",
-        "kwh_per_£": utils.joules_to_kwh(1000*1e6)/ 250,
+        "kwh_per_£": convert.convert_units('j', 'kwh') * 1000 * 1e6 / 250,
         "source":    "https://energyeducation.ca/encyclopedia/Embodied_energy",
         "weight": 1
     },
     {
         "type_of_stuff": "laptop",
-        "kwh_per_£": utils.joules_to_kwh(4500 * 1e6) / 1500,
+        "kwh_per_£": convert.convert_units('j', 'kwh') * (4500 * 1e6) / 1500,
         "source": "https://energyeducation.ca/encyclopedia/Embodied_energy",
         "weight": 1
     },
     {
         "type_of_stuff": "washing machine",
-        "kwh_per_£": utils.joules_to_kwh(3900 * 1e6) / 450,
+        "kwh_per_£": convert.convert_units('j', 'kwh') * (3900 * 1e6) / 450,
         "source": "https://energyeducation.ca/encyclopedia/Embodied_energy",
         "weight": 1
     },
     {
         "type_of_stuff": "fridge",
-        "kwh_per_£": utils.joules_to_kwh(5900 * 1e6) / 500,  // American fridges are probably expensive!
+        "kwh_per_£": convert.convert_units('j', 'kwh') * (5900 * 1e6) / 500,  // American fridges are probably expensive!
         "source": "https://energyeducation.ca/encyclopedia/Embodied_energy",
         "weight": 1
     }

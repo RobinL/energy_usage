@@ -1,14 +1,20 @@
-// var tape = require("tape")
-// var eu = require("../")
+var tape = require("tape")
+var eu = require("../")
 
-// tape("test stuff", function (test) {
+tape("test stuff", function (test) {
 
-//     // Stuff shouldn't have a greater impact than buying oil!
-//     eu.
-//         console.log(eu.stuff._estimates)
+    // Stuff shouldn't have a greater impact than buying oil!
+    let kwh_per_litre = eu.convert.convert_units("litres_petrol","kwh")
 
-//     console.log(eu.stuff._get_average_kwh_per_pound_sterling())
+    let kwh_per_pound_sterling_petrol = kwh_per_litre / (1.20 - 0.58)   // petrol costs around £1.20 minus 58p fuel duty
 
-//     test.end();
-// });
+    let actual = eu.stuff._get_average_kwh_per_pound_sterling()
+
+    let upper = kwh_per_pound_sterling_petrol > actual
+    let lower = (kwh_per_pound_sterling_petrol / 10) < actual
+
+    test.true((lower & upper))
+
+    test.end();
+});
 

@@ -114,7 +114,8 @@ function expand_abbreviations(unit) {
     let lookup = {
         "kwh": "kilowatt_hours",
         "kcal": "kilocalories",
-        "km": "kilometers"
+        "km": "kilometers",
+        "j": "joules"
     }
 
     if (unit in lookup) {
