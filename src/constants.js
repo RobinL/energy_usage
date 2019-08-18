@@ -78,7 +78,7 @@ Object.keys(constants).forEach(from_key => {
 constants = Object.assign({}, constants, inverse_constants);
 
 
-function follow_path(start_key, from_key, to_key, multiplier, depth) {
+function follow_path(start_key, from_key, to_key, multiplier, depth, path) {
     // Multiplier is the constant multiplier computed so far
     // Want from_key to stay constant as we traverse, passing through current conversion
     // Intermediate keys will be picked up on a different start_key iteration
@@ -86,10 +86,8 @@ function follow_path(start_key, from_key, to_key, multiplier, depth) {
     // TODO: I don't think depth should be needed
     // Instead we just need to check we're not 'self converting' e.g. joules to joules
     depth += 1
-
     if (depth > 10) {return}
-
-
+    path.push(from_key)
 
     // console.log(`----following from start ${start_key} from key ${from_key} to  ${to_key}`)
 
@@ -109,15 +107,15 @@ function follow_path(start_key, from_key, to_key, multiplier, depth) {
 
         Object.keys(conversions).forEach(inner_key => {
 
-            if (start_key != inner_key) {
-                console.log(`ADDING CHAIN ${start_key} to ${inner_key} with ${multiplier * constants[to_key][inner_key]}`)
+            // if (!(path.includes(inner_key))) {
+                // console.log(`ADDING CHAIN ${start_key} to ${inner_key} with ${multiplier * constants[to_key][inner_key]}`)
 
                 new_constants[start_key] = new_constants[start_key] || {}
                 new_constants[start_key][inner_key] = multiplier * constants[to_key][inner_key]
 
                 // Making this conditional on this path not already existing
-                follow_path(start_key, to_key, inner_key, multiplier, depth)
-            }
+                follow_path(start_key, to_key, inner_key, multiplier, depth, path)
+            // }
         });
     }
 }
@@ -129,7 +127,7 @@ Object.keys(constants).forEach(from_key => {
     let from_val = constants[from_key]
     Object.keys(from_val).forEach(to_key => {
         // console.log(`===constants to key ${to_key}`)
-        follow_path(from_key, from_key, to_key, 1, 1)
+        follow_path(from_key, from_key, to_key, 1, 1, [])
     })
 });
 
