@@ -144,7 +144,14 @@ function convert_units(from, to) {
 
 }
 
+// the enables statements of the form per("kwh/joules") * joules
+function per(to_over_from) {
+    let s = to_over_from.split("/")
+    return convert_units(s[1], s[0])
+}
+
 export let convert = {
     '_constants_dict': constants,
-    'convert_units': convert_units
+    'convert_units': convert_units,
+    'per': per
 };

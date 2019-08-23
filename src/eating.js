@@ -1,4 +1,4 @@
-import { utils } from './utils.js'
+import { convert } from './convert.js'
 
 // Going to use the Mifflin-St Jeor Formula
 // https://en.wikipedia.org/wiki/Basal_metabolic_rate#BMR_estimation_formulas
@@ -64,19 +64,19 @@ function get_energy_intensity_of_production_multiplier(diet_type) {
 }
 
 function kwh_per_day(weight_kg, height_cm, age_years, gender, activity_level, diet_type="omnivore") {
+    // calories is really kcals
     let calories = calories_per_day(weight_kg, height_cm, age_years, gender, activity_level)
 
     // How much energy is required to produce on cal of food?
     // https://www.ebikes.ca/documents/Ebike_Energy.pdf
     // See also https://blogs.scientificamerican.com/plugged-in/10-calories-in-1-calorie-out-the-energy-we-spend-on-food/ for a higher estimate
     let food_production_multiplier = 7  // Later we want to adjust for diet - e.g. veggie vs meat eating.
-    let joules = calories * food_production_multiplier * utils.JOULES_PER_KCAL
+    let joules = calories * food_production_multiplier * convert.convert_units("kcal", "joules")
 
     let diet_type_multiplier = get_energy_intensity_of_production_multiplier(diet_type)
     joules = joules * diet_type_multiplier
-    return utils.joules_to_kwh(joules)
+    return convert.per("kwh/j") * joules
 }
-
 
 export let eating = {
     'kwh_per_day': kwh_per_day,

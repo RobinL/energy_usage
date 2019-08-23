@@ -6,9 +6,9 @@ function miles_driven_to_gallons_of_fuel_per_day(miles_driven, time_period, mpg 
 }
 
 function gallons_of_fuel_to_kwh(imperial_gallons) {
-    let litres = convert.convert_units("imperial_gallons", "litres") * imperial_gallons
-    let kwh_per_litre = convert.convert_units("litres_petrol", "kwh")
-    return litres * kwh_per_litre
+    let litres = convert.per("litres/imperial_gallons") * imperial_gallons
+    let joules  = convert.convert_units("litres_petrol", "joules") * litres
+    return convert.per("kwh/joules") * joules
 }
 
 function miles_driven_to_kwh_per_day(miles_driven, time_period, mpg = 30) {
