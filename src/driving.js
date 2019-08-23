@@ -1,26 +1,14 @@
-import { utils } from './utils.js'
-
-
-
-// https://en.wikipedia.org/wiki/Energy_efficiency_in_transport
+import { convert } from './convert.js'
 
 function miles_driven_to_gallons_of_fuel_per_day(miles_driven, time_period, mpg = 30) {
-
-    let miles_per_day = utils.convert_time_period(miles_driven, time_period, "days")
+    let miles_per_day = miles_driven * convert.convert_units("days", time_period)
     return miles_per_day / mpg
 }
 
-function gallons_of_fuel_to_joules(imperial_gallons) {
-
-    let joules_per_litre = 34.2e6  // from https://en.wikipedia.org/wiki/Energy_density
-    let joules_per_gallon = joules_per_litre * 4.54609 //imperial gallon conversion from google
-
-    return joules_per_gallon * imperial_gallons
-}
-
 function gallons_of_fuel_to_kwh(imperial_gallons) {
-    let joules = gallons_of_fuel_to_joules(imperial_gallons)
-    return utils.joules_to_kwh(joules)
+    let litres = convert.convert_units("imperial_gallons", "litres") * imperial_gallons
+    let kwh_per_litre = convert.convert_units("litres_petrol", "kwh")
+    return litres * kwh_per_litre
 }
 
 function miles_driven_to_kwh_per_day(miles_driven, time_period, mpg = 30) {
@@ -32,5 +20,4 @@ function miles_driven_to_kwh_per_day(miles_driven, time_period, mpg = 30) {
 export let driving = {
     'miles_driven_to_kwh_per_day': miles_driven_to_kwh_per_day,
     '_miles_driven_to_gallons_of_fuel_per_day': miles_driven_to_gallons_of_fuel_per_day
-
 };

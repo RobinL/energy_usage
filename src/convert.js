@@ -33,11 +33,11 @@ constants["litres_jet_fuel"] = {
     "joules": 35e6 //https://en.wikipedia.org/wiki/Energy_density
 }
 
-constants["imperial_gas_unit"] = {
+constants["imperial_gas_units"] = {
     "kilowatt_hours": (39.5 / 3.6) * 2.83 // https://www.gov.uk/guidance/gas-meter-readings-and-bill-calculation
 }
 
-constants["metric_gas_unit"] = {
+constants["metric_gas_units"] = {
     "kilowatt_hours": (39.5 / 3.6)// https://www.gov.uk/guidance/gas-meter-readings-and-bill-calculation
 }
 
@@ -128,12 +128,16 @@ function convert_units(from, to) {
     from = expand_abbreviations(from)
     to = expand_abbreviations(to)
 
+    if (from == to) {return 1}
+
     if (!(from in constants)) {
-        throw (`your from unit ${from} does not exist in our conversions table`)
+        let units_available = Object.keys(constants).join(", ")
+        throw (`your from unit ${from} does not exist in our conversions table. Units available are ${units_available}`)
     }
 
     if (!(to in constants)) {
-        throw (`your to unit ${to} does not exist in our conversions table`)
+        let units_available = Object.keys(constants).join(", ")
+        throw (`your from unit ${from} does not exist in our conversions table. Units available are ${units_available}`)
     }
 
     return constants[from][to]
