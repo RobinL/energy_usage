@@ -10,10 +10,10 @@ tape("test stuff", function (test) {
 
     let actual = eu.stuff._get_average_kwh_per_pound_sterling()
 
-    let upper = kwh_per_pound_sterling_petrol > actual
-    let lower = (kwh_per_pound_sterling_petrol / 10) < actual
+    let upper = kwh_per_pound_sterling_petrol
+    let lower = (kwh_per_pound_sterling_petrol / 10)
 
-    test.true((lower & upper))
+    test.between(actual, lower , upper)
 
     test.end();
 });
