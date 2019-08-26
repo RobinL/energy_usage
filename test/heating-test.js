@@ -6,7 +6,11 @@ tape("test heating", function (test) {
 
     test.equal(eu.heating._get_thermostat_adjustment(19,19), 1)
 
-    test.equal_with_perc_tolerance(1.1, 1, 0.05)
+    test.between(eu.heating._get_thermostat_adjustment(19, 20), 1, 1.2)
+
+    test.between(eu.heating._get_thermostat_adjustment(20, 0), 0, 0.1)
+
+    test.bet
 
     test.end();
 });

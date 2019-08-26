@@ -25,8 +25,10 @@ constants["joules"] = {
 
 // Energy densities
 constants["litres_petrol"] = {
-    "joules": 34.2e6 //https://en.wikipedia.org/wiki/Energy_density
+    "joules": 34.2e6, //https://en.wikipedia.org/wiki/Energy_density,
+    "imperial_gallons_petrol": constants["litres"]["imperial_gallons"]
 }
+
 
 // Energy densities
 constants["litres_jet_fuel"] = {

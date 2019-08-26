@@ -18,7 +18,7 @@ tape.Test.prototype.equal_with_perc_tolerance = function (actual, expected, perc
 
 tape.Test.prototype.between = function (actual, expected_lower, expected_upper) {
 
-    this._assert(expected_lower < actual && expected_upper > actual, {
+    this._assert(expected_lower <= actual && expected_upper >= actual, {
         message: "should be within tolerance",
         operator: "equal_with_perc_tolerance",
         actual: actual,
