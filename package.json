@@ -21,7 +21,6 @@
     "url": "https://github.com/RobinL/energy_usage/issues"
   },
   "devDependencies": {
-    "almost-equal": "^1.1.0",
     "eslint": "^3.19.0",
     "rollup": "^1.15.6",
     "tape": "^4.10.2"
