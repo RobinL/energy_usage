@@ -8,10 +8,7 @@ tape("test eating", function (test) {
     let cal = eu.eating._get_BMR(59, 168,55, "female")
     test.equal(cal, 1204)
 
-    let kwh = eu.eating.kwh_per_day(50,190,34,"male","moderately_active")
-
-
-    let est = eu.eating.kwh_per_day(70, 200, 40, "male", "moderately_active")
+    let est_kwh = eu.eating.kwh_per_day(70, 200, 40, "male", "moderately_active")
     // To get rough idea of whether this is right, assume every cal eaten requires 10 cal of energy (upper bound)
     // and person consumes 4500 cal a day
 
@@ -21,8 +18,8 @@ tape("test eating", function (test) {
     let upper = eu.utils.joules_to_kwh(4500 * 10 * eu.utils.JOULES_PER_KCAL)
     let lower = eu.utils.joules_to_kwh(1500 * 3 * eu.utils.JOULES_PER_KCAL)
 
-    test.true(est < upper)
-    test.true(est > lower)
+    test.between(est_kwh, lower, upper)
+
 
     test.end();
 });
