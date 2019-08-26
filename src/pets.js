@@ -19,7 +19,7 @@ function kwh_required_by_dogs_per_day(weight_in_kg) {
 
     // let energy_in_kwh = convert.per("kwh/j")  * joules
     // let energy_in_kwh = utils.joules_to_kwh(energy_in_joules)
-    return convert.per("j/kcal") * energy_reqired_to_produce_food_in_kcal
+    return convert.per("kwh/kcal") * energy_reqired_to_produce_food_in_kcal
 
 
 }
