@@ -15,8 +15,8 @@ tape("test eating", function (test) {
     // To get rough idea of whether this is right, assume every cal eaten requires 3 cal of energy (upper bound)
     //and person consumes 1500 cal a day
 
-    let upper = eu.utils.joules_to_kwh(4500 * 10 * eu.utils.JOULES_PER_KCAL)
-    let lower = eu.utils.joules_to_kwh(1500 * 3 * eu.utils.JOULES_PER_KCAL)
+    let upper = eu.convert.per("kwh/joules") * (4500 * 10 * eu.convert.per("j/kcal"))
+    let lower = eu.convert.per("kwh/joules") * (1500 * 3 * eu.convert.per("j/kcal"))
 
     test.between(est_kwh, lower, upper)
 

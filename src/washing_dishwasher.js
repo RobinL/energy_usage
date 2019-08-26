@@ -1,4 +1,4 @@
-import { utils } from './utils.js'
+import { convert } from './convert';
 
 // Derived from measuring the actual usage of my washing machine
 //Manual for model WW90J5456MW http://downloadcenter.samsung.com/content/UM/201712/20171222100637120/WW5000J_BEST_DC68-03779A-01_EN.pdf
@@ -26,7 +26,7 @@ function washing_machine_kwh_per_day(times_run, time_period, degrees_centigrate=
 
     let kwh_used = kwh_per_wash * times_run
 
-    return utils.convert_time_period(kwh_used, time_period, "days")
+    return convert.convert_units("days", time_period) * kwh_used
 
 }
 
@@ -41,7 +41,7 @@ function dishwasher_kwh_per_day(times_run, time_period, degrees_centigrate = "50
 
     let kwh_used = kwh_per_wash * times_run
 
-    return utils.convert_time_period(kwh_used, time_period, "days")
+    return convert.convert_units("days", time_period) * kwh_used
 
 }
 

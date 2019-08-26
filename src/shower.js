@@ -1,4 +1,4 @@
-import { utils } from './utils.js'
+import { convert } from './convert.js'
 
 function get_daily_litres(num_showers, shower_length_minutes, shower_flow_millilitres_per_second) {
     return num_showers * shower_length_minutes * shower_flow_millilitres_per_second * (60/1000);
@@ -13,7 +13,7 @@ function get_daily_kwh(num_showers, shower_length_minutes, shower_flow_litres_pe
 
     let joules = (litres * water_specific_heat_capacity * temperature_diff_centigrade) / boiler_efficiency
 
-    return utils.joules_to_kwh(joules)
+    return convert.per("kwh/j") * joules
 
 }
 
