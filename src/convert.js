@@ -33,7 +33,7 @@ constants["litres_petrol"] = {
 // Energy densities
 constants["litres_jet_fuel"] = {
     "joules": 35e6, //https://en.wikipedia.org/wiki/Energy_density,
-    "kg_co2": 3.15 //https://www.carbonindependent.org/22.html   'which gives CO2 emissions from a Boeing 737-400 of 115 g per passenger km.'
+    "kg_co2_jet_fuel": 3.15 //https://www.carbonindependent.org/22.html   'which gives CO2 emissions from a Boeing 737-400 of 115 g per passenger km.'
 }
 
 constants["imperial_gas_units"] = {
