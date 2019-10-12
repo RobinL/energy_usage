@@ -36,7 +36,7 @@ constants["litres"] = {
     "oil_barrels": {
         "conversion": 0.00628981,
         "sources": [{"url": "www.google.com/search?q=one+litre+in+oil+barrel", "notes": null}],
-    } //q=one+litre+in+oil+barrel
+    }
 }
 
 // Units of energy
@@ -119,7 +119,7 @@ constants["litres_petrol"] = {
         "sources": [{"url": "https://en.wikipedia.org/wiki/Energy_density", "notes": null},
                     { "url": "Energy Saving Trust Conversion Factors 2016", "notes": null}],
     }, //
-    "imperial_gallons_petrol": constants["litres"]["imperial_gallons"],
+    "imperial_gallons_petrol": shallow_copy(constants["litres"]["imperial_gallons"]),
     "kg_co2_from_petrol": {
         "conversion": 2.19585,
         "sources": [{"url": "https://gist.github.com/RobinL/2d253d1b5a4a27e563fd1ce811c1bb86#file-defra_conversion_factors_2019-csv-L236", "notes": null}],
@@ -211,20 +211,17 @@ Object.keys(constants).forEach(from_key => {
         constants[to_key][from_key] = shallow_copy(template_dict)
         constants[to_key][from_key]["conversion"] = 1 / constants[from_key][to_key]["conversion"]
         constants[to_key][from_key]["sources"] = [...constants[from_key][to_key]["sources"]]
-
     })
 });
 
-// console.log(JSON.stringify(constants, null, 4))
 
 
 // Include in sources a 'from_to' key
 Object.keys(constants).forEach(from_key => {
     let this_obj = constants[from_key]
+    // console.log(from_key)
     Object.keys(this_obj).forEach(to_key => {
-        // console.log("---")
-        // console.log(from_key)
-        // console.log(to_key)
+        // console.log("  " + to_key)
 
         let this_sources = [...this_obj[to_key]["sources"]]
 
@@ -234,12 +231,15 @@ Object.keys(constants).forEach(from_key => {
         this_sources.forEach(function(d)  {
             d["from_to"] = `${from_key} -> ${to_key}`
         })
+
         constants[from_key][to_key]["sources"] = this_sources
-        // console.log(constants[from_key][to_key]["sources"])
+
     })
 
 })
-// console.log(JSON.stringify(constants["metric_gas_units"], null, 4))
+
+
+
 
 
 // THE PROBLEM IS THAT THE CONSTATS ARRAY EVOLVES AS THIS RUNS, WHICH MEANS THAT NEW WEIRD PATHS BECOME AVAILABLE
@@ -265,40 +265,34 @@ function follow_path(start_key, from_key, to_key, multiplier, path, sources) {
     // Prevent circular chains by keeping track of path taken
     path.push(from_key)
 
-
     if (to_key in constants) { // then to_key is also a from_key and chaining is possible
 
-        // sources = [...sources, ...constants[from_key][to_key]["sources"]]
         // Update multiplier with current conversion
         multiplier = multiplier * constants[from_key][to_key]["conversion"]
 
         let conversions = constants[to_key]
 
+        new_constants[from_key] = new_constants[from_key] || {}
+        new_constants[from_key][to_key] = new_constants[from_key][to_key] || {}
+
+
+
         Object.keys(conversions).forEach(inner_key => {
 
+            let new_sources = [...sources]
             // To prevent 'circular' conversions e.g. litres_petrol -> joules -> litres_jet_fuel -> joules
             if (!(path.includes(inner_key))) {
 
                 if (!(inner_key in constants[start_key])) { //If there isn't already a entry for this inner_key
 
-                    constants[start_key][inner_key] = shallow_copy(template_dict)
-                    constants[start_key][inner_key]["conversion"] = multiplier * constants[to_key][inner_key]["conversion"]
+                    new_constants[start_key][inner_key] = shallow_copy(template_dict)
+                    new_constants[start_key][inner_key]["conversion"] = multiplier * constants[to_key][inner_key]["conversion"]
 
-                    sources = [...sources, ...constants[to_key][inner_key]["sources"]]
+                    new_sources = [...new_sources,  ...constants[to_key][inner_key]["sources"]]
 
-                    constants[start_key][inner_key]["sources"] = sources
+                    new_constants[start_key][inner_key]["sources"] = new_sources
 
-                    if (start_key == "gbp_to_generate_nuclear_hinkley_point_uk") {
-                        if(inner_key == "imperial_gas_units") {
-                            console.log("---")
-
-                            console.log(path)
-                            // console.log(constants[to_key][inner_key]["sources"])
-
-
-                    }}
-                    // }
-                    follow_path(start_key, to_key, inner_key, multiplier, [...path], [...sources])
+                    follow_path(start_key, to_key, inner_key, multiplier, [...path], [...new_sources])
 
                 }
             }
@@ -306,10 +300,14 @@ function follow_path(start_key, from_key, to_key, multiplier, path, sources) {
     }
 }
 
+let new_constants = JSON.parse(JSON.stringify(constants))
+// new_constants = {}
+
 Object.keys(constants).forEach(from_key => {
     let from_val = constants[from_key]
     Object.keys(from_val).forEach(to_key => {
-        follow_path(from_key, from_key, to_key, 1, [], [])
+        let sources = [...constants[from_key][to_key]["sources"]]
+        follow_path(from_key, from_key, to_key, 1, [], sources)
     })
 });
 
@@ -338,17 +336,17 @@ function convert_units(from, to) {
         return 1
     }
 
-    if (!(from in constants)) {
-        let units_available = Object.keys(constants).join(", ")
+    if (!(from in new_constants)) {
+        let units_available = Object.keys(new_constants).join(", ")
         throw (`your from unit ${from} does not exist in our conversions table. Units available are ${units_available}`)
     }
 
-    if (!(to in constants)) {
-        let units_available = Object.keys(constants).join(", ")
+    if (!(to in new_constants)) {
+        let units_available = Object.keys(new_constants).join(", ")
         throw (`your from unit ${from} does not exist in our conversions table. Units available are ${units_available}`)
     }
 
-    return constants[from][to]["conversion"]
+    return new_constants[from][to]["conversion"]
 
 }
 
@@ -359,7 +357,7 @@ function per(to_over_from) {
 }
 
 export let convert = {
-    '_constants_dict': constants,
+    '_constants_dict': new_constants,
     'convert_units': convert_units,
     'per': per
 };
