@@ -219,8 +219,18 @@ Object.keys(constants).forEach(from_key => {
 Object.keys(constants).forEach(from_key => {
     let this_obj = constants[from_key]
     Object.keys(this_obj).forEach(to_key => {
-        let this_sources = this_obj[to_key]["sources"]
+        // console.log("---")
+        // console.log(from_key)
+        // console.log(to_key)
+
+        let this_sources = [...this_obj[to_key]["sources"]]
+
+        if (this_sources.length == 0 ) {
+            this_sources = [{}]
+        }
         this_sources.forEach(d => d["from_to"] = `${from_key} -> ${to_key}`)
+        constants[from_key][to_key]["sources"] = this_sources
+        // console.log(constants[from_key][to_key]["sources"])
     })
 
 })
