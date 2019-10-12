@@ -215,6 +215,9 @@ Object.keys(constants).forEach(from_key => {
     })
 });
 
+// console.log(JSON.stringify(constants, null, 4))
+
+
 // Include in sources a 'from_to' key
 Object.keys(constants).forEach(from_key => {
     let this_obj = constants[from_key]
@@ -228,15 +231,17 @@ Object.keys(constants).forEach(from_key => {
         if (this_sources.length == 0 ) {
             this_sources = [{}]
         }
-        this_sources.forEach(d => d["from_to"] = `${from_key} -> ${to_key}`)
+        this_sources.forEach(function(d)  {
+            d["from_to"] = `${from_key} -> ${to_key}`
+        })
         constants[from_key][to_key]["sources"] = this_sources
         // console.log(constants[from_key][to_key]["sources"])
     })
 
 })
+// console.log(JSON.stringify(constants["metric_gas_units"], null, 4))
 
-
-function follow_path(start_key, from_key, to_key, multiplier, path) {
+function follow_path(start_key, from_key, to_key, multiplier, path, sources) {
     // Multiplier is the constant computed so far
     // Want from_key to stay constant as we traverse, passing through iteratively updated multiplier
     // Intermediate from_keys will be picked up on a different start_key iteration
@@ -244,8 +249,10 @@ function follow_path(start_key, from_key, to_key, multiplier, path) {
     // Prevent circular chains by keeping track of path taken
     path.push(from_key)
 
+
     if (to_key in constants) { // then to_key is also a from_key and chaining is possible
 
+        sources = [...sources, ...constants[from_key][to_key]["sources"]]
         // Update multiplier with current conversion
         multiplier = multiplier * constants[from_key][to_key]["conversion"]
 
@@ -257,11 +264,13 @@ function follow_path(start_key, from_key, to_key, multiplier, path) {
             if (!(path.includes(inner_key))) {
 
                 if (!(inner_key in constants[start_key])) { //If there isn't already a entry for this inner_key
+
                     constants[start_key][inner_key] = shallow_copy(template_dict)
                     constants[start_key][inner_key]["conversion"] = multiplier * constants[to_key][inner_key]["conversion"]
-                    constants[start_key][inner_key]["sources"] = [...constants[to_key][inner_key]["sources"], ...constants[from_key][to_key]["sources"]]
 
-                    follow_path(start_key, to_key, inner_key, multiplier, [...path])
+                    constants[start_key][inner_key]["sources"] = [...sources, ...constants[to_key][inner_key]["sources"]]
+
+                    follow_path(start_key, to_key, inner_key, multiplier, [...path], [...sources])
                 }
             }
         });
@@ -271,7 +280,7 @@ function follow_path(start_key, from_key, to_key, multiplier, path) {
 Object.keys(constants).forEach(from_key => {
     let from_val = constants[from_key]
     Object.keys(from_val).forEach(to_key => {
-        follow_path(from_key, from_key, to_key, 1, [])
+        follow_path(from_key, from_key, to_key, 1, [], [])
     })
 });
 
