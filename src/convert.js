@@ -241,6 +241,22 @@ Object.keys(constants).forEach(from_key => {
 })
 // console.log(JSON.stringify(constants["metric_gas_units"], null, 4))
 
+
+// THE PROBLEM IS THAT THE CONSTATS ARRAY EVOLVES AS THIS RUNS, WHICH MEANS THAT NEW WEIRD PATHS BECOME AVAILABLE
+//  SO THE PATH FOR IMPERIAL_GAS_UNITS TO HINKLEY_POINT IS
+// 'gbp_to_generate_nuclear_hinkley_point_uk',
+//     'megawatt_hours',
+//     'gigawatt_hours',
+//     'gbp_to_generate_offshore_wind_uk',
+//     'gbp_to_generate_solar_nevada_usa',
+//     'kilowatt_hours',
+//     'joules',
+//     'kilocalories',
+//     'litres_jet_fuel'
+// WHICH IS INEFFICIENT!
+// SOLUTION IS TO CREATE A NEW CONSTANTS RATHER THAN MODIFY EXISTING
+
+//
 function follow_path(start_key, from_key, to_key, multiplier, path, sources) {
     // Multiplier is the constant computed so far
     // Want from_key to stay constant as we traverse, passing through iteratively updated multiplier
@@ -252,7 +268,7 @@ function follow_path(start_key, from_key, to_key, multiplier, path, sources) {
 
     if (to_key in constants) { // then to_key is also a from_key and chaining is possible
 
-        sources = [...sources, ...constants[from_key][to_key]["sources"]]
+        // sources = [...sources, ...constants[from_key][to_key]["sources"]]
         // Update multiplier with current conversion
         multiplier = multiplier * constants[from_key][to_key]["conversion"]
 
@@ -268,9 +284,22 @@ function follow_path(start_key, from_key, to_key, multiplier, path, sources) {
                     constants[start_key][inner_key] = shallow_copy(template_dict)
                     constants[start_key][inner_key]["conversion"] = multiplier * constants[to_key][inner_key]["conversion"]
 
-                    constants[start_key][inner_key]["sources"] = [...sources, ...constants[to_key][inner_key]["sources"]]
+                    sources = [...sources, ...constants[to_key][inner_key]["sources"]]
 
+                    constants[start_key][inner_key]["sources"] = sources
+
+                    if (start_key == "gbp_to_generate_nuclear_hinkley_point_uk") {
+                        if(inner_key == "imperial_gas_units") {
+                            console.log("---")
+
+                            console.log(path)
+                            // console.log(constants[to_key][inner_key]["sources"])
+
+
+                    }}
+                    // }
                     follow_path(start_key, to_key, inner_key, multiplier, [...path], [...sources])
+
                 }
             }
         });
