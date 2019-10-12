@@ -1,5 +1,6 @@
 {
   "name": "@robinl/energy_usage",
+  "type": "module",
   "version": "0.0.34",
   "description": "",
   "unpkg": "dist/energy_usage.js",
