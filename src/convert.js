@@ -215,6 +215,17 @@ Object.keys(constants).forEach(from_key => {
     })
 });
 
+// Include in sources a 'from_to' key
+Object.keys(constants).forEach(from_key => {
+    let this_obj = constants[from_key]
+    Object.keys(this_obj).forEach(to_key => {
+        let this_sources = this_obj[to_key]["sources"]
+        this_sources.forEach(d => d["from_to"] = `${from_key} -> ${to_key}`)
+    })
+
+})
+
+
 function follow_path(start_key, from_key, to_key, multiplier, path) {
     // Multiplier is the constant computed so far
     // Want from_key to stay constant as we traverse, passing through iteratively updated multiplier
