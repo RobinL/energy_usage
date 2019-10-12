@@ -1,3 +1,6 @@
 dist/*.zip
 img/
-test
+test/
+dev_tips.md
+source_documents/
+del.mjs
