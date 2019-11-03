@@ -16,7 +16,7 @@ tape("test heating", function (test) {
 
     let heating_1kw_a_day_per_year = eu.convert.convert_units("years", "days")
     let daily = eu.heating.heating_kwh_per_day(heating_1kw_a_day_per_year,20,20,1,"kwh")
-    test.floating_equalish(daily, 0.8)
+    test.floating_equalish(daily, 1)
 
     test.end();
 });

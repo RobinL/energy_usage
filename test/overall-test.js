@@ -23,7 +23,7 @@ tape("test total", function (test) {
     kwh.push(eu.heating.heating_kwh_per_day(12000, 20, 20, 2, "kwh"))
 
     // They take a 5 minute shower a day
-    kwh.push(eu.shower.get_daily_kwh(1,5,0.1))
+    kwh.push(eu.shower_bath.shower_get_daily_kwh(1,5,0.1))
 
     // They spend £600 a month on stuff like electronics, car repayments etc. https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/bulletins/householddisposableincomeandinequality/financialyearending2019provisional
     kwh.push(eu.stuff.pounds_sterling_to_kwh(600) * eu.convert.per("months/days")   )
