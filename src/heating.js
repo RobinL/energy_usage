@@ -24,8 +24,6 @@ function heating_kwh_per_day(annual_usage_from_energy_bill, thermostat_current, 
 
     let kwh_per_day = kwh_per_year * convert.per("years/days")
 
-    // TODO: improve this adjustment
-    kwh_per_day = kwh_per_day * 0.8  //Fairly arbitrary adjustment to account for gas usage for cooking, hot water
     kwh_per_day = kwh_per_day/num_in_household
 
     // Adjust for future thermostat settings
