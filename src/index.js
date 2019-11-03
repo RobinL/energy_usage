@@ -1,4 +1,4 @@
-export { shower } from './shower.js';
+export { shower_bath } from './shower_bath.js';
 export { driving } from './driving.js';
 export { flying } from './flying.js';
 export { utils } from './utils.js';
